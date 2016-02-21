@@ -128,50 +128,41 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
+        android:inputType="textMultiLine"
         android:ems="10"
         android:id="@+id/length_text"
-        android:layout_above="@+id/width_label"
-        android:layout_toRightOf="@+id/length_label"
-        android:layout_toEndOf="@+id/length_label" />
+        android:layout_below="@+id/progressBar"
+        android:layout_alignLeft="@+id/countries_radioGroup"
+        android:layout_alignStart="@+id/countries_radioGroup" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
+        android:inputType="textMultiLine"
         android:ems="10"
         android:id="@+id/width_text"
         android:layout_above="@+id/depth_label"
-        android:layout_toRightOf="@+id/length_label"
-        android:layout_toEndOf="@+id/length_label" />
+        android:layout_alignRight="@+id/length_text"
+        android:layout_alignEnd="@+id/length_text" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:ems="10"
-        android:id="@+id/weight_text"
-        android:layout_alignBottom="@+id/weight_label"
-        android:layout_alignLeft="@+id/depth_text"
-        android:layout_alignStart="@+id/depth_text" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="numberSigned"
+        android:inputType="textMultiLine"
         android:ems="10"
         android:id="@+id/depth_text"
         android:layout_alignBottom="@+id/depth_label"
-        android:layout_alignLeft="@+id/width_text"
-        android:layout_alignStart="@+id/width_text" />
+        android:layout_alignRight="@+id/width_text"
+        android:layout_alignEnd="@+id/width_text" />
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/weight_label"
-        android:layout_toRightOf="@+id/progressBar"
-        android:layout_toEndOf="@+id/progressBar"
-        android:id="@+id/popup_layout"></LinearLayout>
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/weight_text"
+        android:layout_above="@+id/countries_radioGroup"
+        android:layout_alignRight="@+id/depth_text"
+        android:layout_alignEnd="@+id/depth_text" />
 
 </RelativeLayout>

@@ -21,8 +21,6 @@ import java.util.HashMap;
 public class PRCActivity extends AppCompatActivity implements View.OnClickListener{
 
 
-
-
     RadioGroup countriesRadioGroup;
     RadioButton canadaRadioButton;
     RadioButton unitedStatesRadioButton;
@@ -74,6 +72,9 @@ public class PRCActivity extends AppCompatActivity implements View.OnClickListen
     HashMap<String, Double> internationalNonStandard200To500 = new HashMap<String, Double>();
 
 
+
+
+
     //String variables for holding errors
     String errorLengthMissing="";
     String errorWidthMissing="";
@@ -116,6 +117,8 @@ public class PRCActivity extends AppCompatActivity implements View.OnClickListen
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,14 +141,6 @@ public class PRCActivity extends AppCompatActivity implements View.OnClickListen
         canadaRadioButton = (RadioButton) findViewById(R.id.canada_radiobutton);
         unitedStatesRadioButton = (RadioButton) findViewById(R.id.unitedstates_radiobutton);
         internationalRadioButton = (RadioButton) findViewById(R.id.international_radiobutton);
-
-
-//        canadaRadioButton.setOnClickListener(this);
-//        unitedStatesRadioButton.setOnClickListener(this);
-//        internationalRadioButton.setOnClickListener(this);
-
-
-
 
         //Create Button Selection Listener
         getRateButton.setOnClickListener(new View.OnClickListener() {
@@ -192,10 +187,6 @@ public class PRCActivity extends AppCompatActivity implements View.OnClickListen
 
                 boolean validInputs=checkInputsValidity(lenthTextInstring,widthTextInstring,depthTextInstring,weightTextInstring,isACountrySelected);
 
-
-
-                isGetRateButtonClicked=true;
-                displayPopUp(""+isGetRateButtonClicked);
                 if(validInputs==true) {
                     double length = Double.parseDouble(lengthText.getText().toString().trim());
                     double width = Double.parseDouble(widthText.getText().toString().trim());
@@ -204,21 +195,12 @@ public class PRCActivity extends AppCompatActivity implements View.OnClickListen
                     calculateRate(length, width, depth, weight);
                 }
 
-//                double rate = calculateRate(length, width, depth, weight);
-//                rateText.setText("The rate is : " + rate);
             }
         });
 
 
 
     }
-
-
-    boolean getIsGetRateButtonClicked(){
-        return  isGetRateButtonClicked;
-    }
-
-
 
     boolean isAlpha(String str){
         return str.matches("[a-zA-Z]+");
@@ -228,51 +210,65 @@ public class PRCActivity extends AppCompatActivity implements View.OnClickListen
     }
 
 
-
-
-
     boolean checkInputsValidity(String lengthTestInString,String widthTextInString,String depthTextInString,String weightTextInString,boolean isACountrySelected){
         //check that all required inputs are provided
         boolean areInputsValid=true;
-//        if(  (lengthText.getText().toString().isEmpty()) || (widthText.getText().toString().isEmpty()) ||
-//                (depthText.getText().toString().isEmpty()) || (weightText.getText().toString().isEmpty())  ||
-//                ( (isCanadaChecked==false) && (isUnitedStatesChecked==false) && (isInternationalChecked==false))   ){
-//            errorFewArguments ="ERROR: Too few arguments \n At least one of the required arguments is not provided " +
-//                    "\n   Please fill in all the inputs fields";
-//            displayPopUp(errorFewArguments);
-//            areInputsValid=false;
-//        }
 
-
-
-
-
-
-        //Tests for empty inputs
+        // Tests for empty inputs
         if(lengthTestInString==""){
             errorLengthMissing = "ERROR: Length is missing";
+            areInputsValid=false;
+            displayPopUp(errorLengthMissing);
+            return areInputsValid;
         }
 
         if(widthTextInString==""){
             errorWidthMissing = "ERROR: Width is missing";
+            areInputsValid=false;
+            displayPopUp(errorWidthMissing);
+            return areInputsValid;
         }
 
         if(depthTextInString==""){
             errorDepthMissing = "ERROR: Depth is missing";
+            areInputsValid=false;
+            displayPopUp(errorDepthMissing);
+            return areInputsValid;
         }
 
         if(weightTextInString==""){
             errorWeightMissing = "ERROR: Weight is missing";
+            areInputsValid=false;
+            displayPopUp(errorWeightMissing);
+            return areInputsValid;
         }
 
         if(isACountrySelected==false){
             errorCountryMissing = "ERROR: Country is missing";
+            areInputsValid=false;
+            displayPopUp(errorCountryMissing);
+            return areInputsValid;
         }
 
 
         if(isAlpha(lengthTestInString) || isAlpha(widthTextInString) || isAlpha(depthTextInString) || isAlpha(weightTextInString)){
             errorInvalidInputAlpha = "ERROR: Input cannot be a letter of the alphabet";
+            areInputsValid=false;
+            displayPopUp(errorInvalidInputAlpha);
+            return areInputsValid;
         }
+
+        if((!isAlpha(lengthTestInString) && !isNumeric(lengthTestInString)) ||
+                (!isAlpha(widthTextInString) && !isNumeric(widthTextInString)) ||
+                (!isAlpha(depthTextInString) && !isNumeric(depthTextInString)) ||
+                (!isAlpha(weightTextInString) && !isNumeric(weightTextInString))){
+            errorInvalidInputNonAlphaNumeric = "ERROR: Input is a symbol";
+            areInputsValid=false;
+            displayPopUp(errorInvalidInputNonAlphaNumeric);
+            return areInputsValid;
+        }
+
+
 
         double length =Double.parseDouble(lengthTestInString);
         double width =Double.parseDouble(widthTextInString);
@@ -283,54 +279,74 @@ public class PRCActivity extends AppCompatActivity implements View.OnClickListen
         if((length > 380 || length < 140) || (width > 270 || width < 90) ||
                 (depth < 0.18 || depth > 20) || (weight < 3 || weight > 500)){
             errorInvalidInputCombinationNonStandard = "ERROR: At least one input is out of range";
+            displayPopUp(errorInvalidInputCombinationNonStandard);
+            areInputsValid=false;
+            return false;
         }
 
         if((length > 245 || length < 140) || (width > 156 || width < 90) ||
                 (depth < 0.18 || depth > 5) || (weight < 2 || weight > 50)){
             errorInvalidInputCombinationStandard = "ERROR: At least one input is out of range";
+            displayPopUp(errorInvalidInputCombinationStandard);
+            areInputsValid=false;
         }
 
 
 
         if(length < 0 || width < 0 || depth < 0 || weight < 0){
             errorInvalidInputNegative = "ERROR: Input cannot be negative";
+            displayPopUp(errorInvalidInputNegative);
+            areInputsValid=false;
+            return false;
         }
-
-        if((!isAlpha(lengthTestInString) && !isNumeric(lengthTestInString)) ||
-                (!isAlpha(widthTextInString) && !isNumeric(widthTextInString)) ||
-                (!isAlpha(depthTextInString) && !isNumeric(depthTextInString)) ||
-                (!isAlpha(weightTextInString) && !isNumeric(weightTextInString))){
-            errorInvalidInputNonAlphaNumeric = "ERROR: Input is a symbol";
-        }
-
 
 
         //Test for Ranges
         //Test for range low
         if(length < 140){
             errorLengthLow = "ERROR: Length out of range low";
+            areInputsValid=false;
+            displayPopUp(errorLengthLow);
+            return false;
         }
         //Test for range high
         if(length>245 && length<380){
             errorLengthHighForStandard = "ERROR: Length out of range high for standard lettermail";
+            areInputsValid=false;
+            displayPopUp(errorLengthHighForStandard);
+            return false;
         }
         else if (length>380){
             errorLengthHighForStandard = "ERROR: Length out of range high for standard lettermail";
             errorLengthHighForNonStandard = "ERROR: Length out of range high for non standard lettermail";
+            areInputsValid=false;
+            displayPopUp(errorLengthHighForStandard);
+            displayPopUp(errorLengthHighForNonStandard);
+           return false;
         }
 
 
         //Test for width low
         if(width < 90){
             errorWidthLow = "ERROR: Width out of range low";
+            areInputsValid=false;
+            displayPopUp(errorLengthHighForNonStandard);
+            return false;
         }
         //Test for width high
         if(width>156 && width<270){
             errorWidthHighForStandard = "ERROR: Width out of range high for standard lettermail";
+            areInputsValid=false;
+            displayPopUp(errorWidthHighForStandard);
+            return false;
         }
         else if (width>270){
             errorWidthHighForStandard = "ERROR: Width out of range high for standard lettermail";
             errorWidthHighForNonStandard = "ERROR: Width out of range high for non standard lettermail";
+            areInputsValid=false;
+            displayPopUp(errorWidthHighForStandard);
+            displayPopUp(errorWidthHighForNonStandard);
+            return false;
         }
 
 
@@ -338,14 +354,24 @@ public class PRCActivity extends AppCompatActivity implements View.OnClickListen
         //Test for depth low
         if(depth < 0.18){
             errorDepthLow = "ERROR: Depth out of range low";
+            areInputsValid=false;
+            displayPopUp(errorDepthLow);
+            return false;
         }
         //Test for depth high
         if(depth>5 && depth<20){
             errorDepthHighForStandard = "ERROR: Depth out of range high for standard lettermail";
+            areInputsValid=false;
+            displayPopUp(errorDepthHighForStandard);
+            return false;
         }
         else if (depth>20){
             errorDepthHighForStandard = "ERROR: Depth out of range high for standard lettermail";
             errorDepthHighForNonStandard = "ERROR: Depth out of range high for non standard lettermail";
+            areInputsValid=false;
+            displayPopUp(errorDepthHighForStandard);
+            displayPopUp(errorDepthHighForNonStandard);
+            return false;
         }
 
 
@@ -353,27 +379,40 @@ public class PRCActivity extends AppCompatActivity implements View.OnClickListen
         if(weight < 2){
             errorWeightLowForStandard = "ERROR: Weight out of range low for standard lettermail";
             errorWeightLowForNonStandard = "ERROR: Weight out of range low for non standard lettermail";
+            areInputsValid=false;
+            displayPopUp(errorWeightLowForStandard);
+            displayPopUp(errorWeightLowForNonStandard);
+            return false;
         }
 
         if(weight>2 && weight < 3){
             errorWeightLowForNonStandard = "ERROR: Weight out of range low for non standard lettermail";
+            areInputsValid=false;
+            displayPopUp(errorWeightLowForNonStandard);
+            return false;
         }
 
-        //Test for depth high
+
         if(weight>50 && weight<500){
             errorWeightLowForStandard = "ERROR: Weight out of range low for standard lettermail";
+            areInputsValid=false;
+            displayPopUp(errorWeightLowForStandard);
+            return false;
         }
         else if (weight>500){
-            errorWeightLowForStandard = "ERROR: Weight out of range low for standard lettermail";
-            errorWeightLowForNonStandard = "ERROR: Weight out of range low for non standard lettermail";
+            errorWeightHighForStandard = "ERROR: Weight out of range high for standard lettermail";
+            errorWeightHighForNonStandard = "ERROR: Weight out of range high for non standard lettermail";
+            areInputsValid=false;
+            displayPopUp(errorWeightLowForStandard);
+            displayPopUp(errorWeightLowForNonStandard);
+            return false;
         }
 
-
-
-        return true;
+        return areInputsValid;
 
     }
-    //String[] calculatedRate = new String[3];
+
+
     String calculateRate(double length,double width,double depth,double weight){
 
         boolean standardLength = length>=standardMinSpecifications[0] && length<=standardMaxSpecifications[0];
@@ -389,13 +428,15 @@ public class PRCActivity extends AppCompatActivity implements View.OnClickListen
                     calculatedRate= "If \"Stamps in booklets/coils/panes\" : " + canadaStandardUpTo30.get("Stamps in booklets/coils/panes") + "\n" +
                             "If \"Meter or Postal Indicia\" : " + canadaStandardUpTo30.get("Meter or Postal Indicia") + "\n" +
                             "If \"Single Stamp(s)\" : " + canadaStandardUpTo30.get("Single Stamp(s)");
-                    //displayPopUp(calculatedRate);
+                    displayPopUp(calculatedRate);
+                    return calculatedRate;
                 }
-                else if(weight>30 && weight <=50){
+             else if(weight>30 && weight <=50){
                     calculatedRate= "If \"Stamps in booklets/coils/panes\" : " + canadaStandard30To50.get("Stamps in booklets/coils/panes") + "\n" +
                             "If \"Meter or Postal Indicia\" : " + canadaStandard30To50.get("Meter or Postal Indicia") + "\n" +
                             "If \"Single Stamp(s)\" : " + canadaStandard30To50.get("Single Stamp(s)");
-                    //displayPopUp(calculatedRate);
+                    displayPopUp(calculatedRate);
+                    return calculatedRate;
                 }
             }
 
@@ -403,12 +444,14 @@ public class PRCActivity extends AppCompatActivity implements View.OnClickListen
                 if(weight<=30){
                     calculatedRate= "If \"Stamp(s)\" : " + usaStandardUpTo30.get("Stamp(s)") + "\n" +
                             "If \"Meter or Postal Indicia\" : " + usaStandardUpTo30.get("Meter or Postal Indicia");
-                    //displayPopUp(calculatedRate);
+                    displayPopUp(calculatedRate);
+                    return calculatedRate;
                 }
-                else if(weight>30 && weight <=50){
+                 else if(weight>30 && weight <=50){
                     calculatedRate= "If \"Stamp(s)\" : " + usaStandard30To50.get("Stamp(s)") + "\n" +
                             "If \"Meter or Postal Indicia\" : " + usaStandard30To50.get("Meter or Postal Indicia");
-                    //displayPopUp(calculatedRate);
+                    displayPopUp(calculatedRate);
+                    return calculatedRate;
                 }
 
 
@@ -417,16 +460,17 @@ public class PRCActivity extends AppCompatActivity implements View.OnClickListen
                 if(weight<=30){
                     calculatedRate= "If \"Stamp(s)\" : " + internationalStandardUpTo30.get("Stamp(s)") + "\n" +
                             "If \"Meter or Postal Indicia\" : " + internationalStandardUpTo30.get("Meter or Postal Indicia");
-                    //displayPopUp(calculatedRate);
+                    displayPopUp(calculatedRate);
+                    return calculatedRate;
                 }
 
-                else if(weight>30 && weight <=50){
+                 if(weight>30 && weight <=50){
                     calculatedRate= "If \"Stamp(s)\" : " + internationalStandard30To50.get("Stamp(s)") + "\n" +
                             "If \"Meter or Postal Indicia\" : " + internationalStandard30To50.get("Meter or Postal Indicia");
-                    //displayPopUp(calculatedRate);
+                    displayPopUp(calculatedRate);
+                    return calculatedRate;
                 }
             }
-
         }
 
 
@@ -442,27 +486,32 @@ public class PRCActivity extends AppCompatActivity implements View.OnClickListen
                 if(weight<=100){
                     calculatedRate= "If \"Stamp(s)\" : " + canadaNonStandardUpTo100.get("Stamp(s)") + "\n" +
                             "If \"Meter or Postal Indicia\" : " + canadaNonStandardUpTo100.get("Meter or Postal Indicia");
-                    //displayPopUp(calculatedRate);
+                    displayPopUp(calculatedRate);
+                    return calculatedRate;
                 }
                 else if(weight>100 && weight <=200){
                     calculatedRate= "If \"Stamp(s)\" : " + canadaNonStandard100To200.get("Stamp(s)") + "\n" +
                             "If \"Meter or Postal Indicia\" : " + canadaNonStandard100To200.get("Meter or Postal Indicia");
-                    //displayPopUp(calculatedRate);
+                    displayPopUp(calculatedRate);
+                    return calculatedRate;
                 }
                 else if(weight>200 && weight <=300){
                     calculatedRate= "If \"Stamp(s)\" : " + canadaNonStandard200To300.get("Stamp(s)") + "\n" +
                             "If \"Meter or Postal Indicia\" : " + canadaNonStandard200To300.get("Meter or Postal Indicia");
-                    //displayPopUp(calculatedRate);
+                    displayPopUp(calculatedRate);
+                    return calculatedRate;
                 }
                 else if(weight>300 && weight <=400){
                     calculatedRate= "If \"Stamp(s)\" : " + canadaNonStandard300To400.get("Stamp(s)") + "\n" +
                             "If \"Meter or Postal Indicia\" : " + canadaNonStandard300To400.get("Meter or Postal Indicia");
-                    //displayPopUp(calculatedRate);
+                    displayPopUp(calculatedRate);
+                    return calculatedRate;
                 }
                 else if(weight>400 && weight <=500){
                     calculatedRate= "If \"Stamp(s)\" : " + canadaNonStandard400To500.get("Stamp(s)") + "\n" +
                             "If \"Meter or Postal Indicia\" : " + canadaNonStandard400To500.get("Meter or Postal Indicia");
-                    //displayPopUp(calculatedRate);
+                    displayPopUp(calculatedRate);
+                    return calculatedRate;
                 }
             }
 
@@ -470,17 +519,20 @@ public class PRCActivity extends AppCompatActivity implements View.OnClickListen
                 if(weight>0 && weight<=100){
                     calculatedRate= "If \"Stamp(s)\" : " + usaNonStandardUpTo100.get("Stamp(s)") + "\n" +
                             "If \"Meter or Postal Indicia\" : " + usaNonStandardUpTo100.get("Meter or Postal Indicia");
-                    //displayPopUp(calculatedRate);
+                    displayPopUp(calculatedRate);
+                    return calculatedRate;
                 }
-                else if(weight>100 && weight<=200){
+                 if(weight>100 && weight<=200){
                     calculatedRate= "If \"Stamp(s)\" : " + usaNonStandard100To200.get("Stamp(s)") + "\n" +
                             "If \"Meter or Postal Indicia\" : " + usaNonStandard100To200.get("Meter or Postal Indicia");
-                    //displayPopUp(calculatedRate);
+                    displayPopUp(calculatedRate);
+                    return calculatedRate;
                 }
                 else if(weight>200 && weight<=500){
                     calculatedRate= "If \"Stamp(s)\" : " + usaNonStandard200To500.get("Stamp(s)") + "\n" +
                             "If \"Meter or Postal Indicia\" : " + usaNonStandard200To500.get("Meter or Postal Indicia");
-                    //displayPopUp(calculatedRate);
+                    displayPopUp(calculatedRate);
+                    return calculatedRate;
                 }
             }
 
@@ -488,17 +540,20 @@ public class PRCActivity extends AppCompatActivity implements View.OnClickListen
                 if(weight>0 && weight<=100){
                     calculatedRate= "If \"Stamp(s)\" : " + internationalNonStandardUpTo100.get("Stamp(s)") + "\n" +
                             "If \"Meter or Postal Indicia\" : " + internationalNonStandardUpTo100.get("Meter or Postal Indicia");
-                    //displayPopUp(calculatedRate);
+                    displayPopUp(calculatedRate);
+                    return calculatedRate;
                 }
-                else if(weight>100 && weight<=200){
+                 if(weight>100 && weight<=200){
                     calculatedRate= "If \"Stamp(s)\" : " + internationalNonStandard100To200.get("Stamp(s)") + "\n" +
                             "If \"Meter or Postal Indicia\" : " + internationalNonStandard100To200.get("Meter or Postal Indicia");
-                    //displayPopUp(calculatedRate);
+                    displayPopUp(calculatedRate);
+                    return calculatedRate;
                 }
-                else if(weight>200 && weight<=500){
+               else if(weight>200 && weight<=500){
                     calculatedRate= "If \"Stamp(s)\" : " + internationalNonStandard200To500.get("Stamp(s)") + "\n" +
                             "If \"Meter or Postal Indicia\" : " + internationalNonStandard200To500.get("Meter or Postal Indicia");
-                    //displayPopUp(calculatedRate);
+                    displayPopUp(calculatedRate);
+                    return calculatedRate;
                 }
             }
 
@@ -508,7 +563,7 @@ public class PRCActivity extends AppCompatActivity implements View.OnClickListen
 
 
 
-    void displayPopUp(String message){
+    void  displayPopUp(String message){
         AlertDialog alertDialog = new AlertDialog.Builder(
                 PRCActivity.this).create();
 
@@ -533,8 +588,6 @@ public class PRCActivity extends AppCompatActivity implements View.OnClickListen
         alertDialog.show();
 
     }
-
-
 
 
     void declarePrices(){
@@ -603,9 +656,6 @@ public class PRCActivity extends AppCompatActivity implements View.OnClickListen
         internationalNonStandard200To500.put("Stamp(s)",20.60);
         internationalNonStandard200To500.put("Meter or Postal Indicia",19.39);
     }
-
-
-
 
     @Override
     public void onClick(View v) {
