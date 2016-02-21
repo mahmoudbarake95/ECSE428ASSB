@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.ecse428.assignmentb.postalratecalculator.PRCActivity"
+    tools:showIn="@layout/activity_prc"
+    style="@style/popup">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Length (mm) :"
+        android:id="@+id/length_label"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="41dp"
+        android:autoText="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Width (mm) :"
+        android:id="@+id/width_label"
+        android:layout_below="@+id/length_label"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="52dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Depth (mm) :"
+        android:id="@+id/depth_label"
+        android:layout_marginTop="48dp"
+        android:layout_below="@+id/width_label"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Weight (g) :"
+        android:id="@+id/weight_label"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/weight_label"
+        android:layout_marginTop="75dp"
+        android:layout_toRightOf="@+id/length_label"
+        android:layout_toEndOf="@+id/length_label"
+        android:id="@+id/countries_radioGroup">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Canada"
+            android:id="@+id/canada_radiobutton"
+            android:checked="false" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="United States"
+            android:id="@+id/unitedstates_radiobutton"
+            android:checked="false" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="International"
+            android:id="@+id/international_radiobutton"
+            android:checked="false" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rate_text" />
+
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Destination :"
+        android:id="@+id/destination_label"
+        android:layout_alignTop="@+id/countries_radioGroup"
+        android:layout_alignRight="@+id/width_label"
+        android:layout_alignEnd="@+id/width_label" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get Rate"
+        android:id="@+id/getrate_button"
+        android:layout_below="@+id/destination_label"
+        android:layout_alignRight="@+id/weight_label"
+        android:layout_alignEnd="@+id/weight_label" />
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Rate : "
+        android:id="@+id/rate_label"
+        android:layout_below="@+id/getrate_button"
+        android:layout_alignRight="@+id/progressBar"
+        android:layout_alignEnd="@+id/progressBar"
+        android:layout_marginTop="44dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/length_text"
+        android:layout_above="@+id/width_label"
+        android:layout_toRightOf="@+id/length_label"
+        android:layout_toEndOf="@+id/length_label" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/width_text"
+        android:layout_above="@+id/depth_label"
+        android:layout_toRightOf="@+id/length_label"
+        android:layout_toEndOf="@+id/length_label" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/weight_text"
+        android:layout_alignBottom="@+id/weight_label"
+        android:layout_alignLeft="@+id/depth_text"
+        android:layout_alignStart="@+id/depth_text" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberSigned"
+        android:ems="10"
+        android:id="@+id/depth_text"
+        android:layout_alignBottom="@+id/depth_label"
+        android:layout_alignLeft="@+id/width_text"
+        android:layout_alignStart="@+id/width_text" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/weight_label"
+        android:layout_toRightOf="@+id/progressBar"
+        android:layout_toEndOf="@+id/progressBar"
+        android:id="@+id/popup_layout"></LinearLayout>
+
+</RelativeLayout>
